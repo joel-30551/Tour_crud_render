@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour Manager</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* ⭐ Basic pagination styling */
+    #pagination {
+      margin-top: 15px;
+      text-align: center;
+    }
+    #pagination button {
+      margin: 0 3px;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #pagination button.active {
+      background: #3F51B5;
+      color: white;
+      font-weight: bold;
+    }
+    #pagination button:disabled {
+      background: #eee;
+      color: #999;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Tour Manager</h1>
+    <div class="header-actions">
+      <button id="addTourBtn">➕ Add Tour</button>
+      <input type="text" id="searchInput" placeholder="Search tours..." 
+             style="padding:8px; margin-left:15px; width:220px; border:1px solid #ccc; border-radius:6px;">
+    </div>
+  </header>
+
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>Tour ID</th>
+          <th>Name</th>
+          <th>Destination</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Price ($)</th>
+          <th>Tour Guide</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tourTableBody">
+        <!-- Rows inserted by JS -->
+      </tbody>
+    </table>
+
+    <!-- ⭐ Pagination container -->
+    <div id="pagination"></div>
+  </main>
+
+  <!-- Popup Form -->
+  <div id="formPopup" class="popup">
+    <div class="popup-content">
+      <span id="closePopup">&times;</span>
+      <h2 id="formTitle">Add New Tour</h2>
+      <form id="tourForm" action="/api/tours" method="POST">
+        <input type="hidden" id="editMode" value="false">
+
+        <label>Tour ID</label>
+        <input type="text" id="tourId" name="tourId" required>
+
+        <label>Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label>Destination</label>
+        <input type="text" id="destination" name="destination" required>
+
+        <label>Start Date</label>
+        <input type="date" id="startDate" name="startDate" required>
+
+        <label>End Date</label>
+        <input type="date" id="endDate" name="endDate" required>
+
+        <label>Price ($)</label>
+        <input type="number" step="0.01" id="price" name="price" required>
+
+        <label>Tour Guide</label>
+        <input type="text" id="tourGuide" name="tourGuide" required>
+
+        <div class="form-actions">
+          <button type="submit" id="saveBtn">Save</button>
+          <button type="button" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation toast -->
+  <div id="confirmationBox" 
+       style="display:none; position:fixed; bottom:20px; right:20px; 
+              background:#4CAF50; color:white; padding:10px 20px; 
+              border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.3); z-index:9999;">
+  </div>
+
+  <!-- Load external JS -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
